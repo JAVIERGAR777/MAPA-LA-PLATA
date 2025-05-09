@@ -49,7 +49,6 @@
             background: rgba(255, 255, 255, 0.7);
         }
 
-        /* ========== MARCA INSTITUCIONAL ========== */
         .municipality-brand {
             position: absolute;
             top: 20px;
@@ -94,7 +93,6 @@
             opacity: 0.3;
         }
 
-        /* ========== TÍTULO ========== */
         .title-container {
             position: absolute;
             top: 20px;
@@ -125,7 +123,6 @@
             opacity: 0.8;
         }
 
-        /* ========== PANEL DE CONTROL ========== */
         .control-panel {
             position: absolute;
             bottom: 80px;
@@ -207,19 +204,16 @@
             font-size: 0.9rem;
         }
 
-        /* ========== ESTILOS DE MAPA ========== */
         .jurisdiction-style {
-            fill-color: var(--secondary-blue);
-            fill-opacity: 0.15;
-            stroke: var(--primary-blue);
-            stroke-width: 1.5;
-            stroke-opacity: 0.7;
-            transition: all 0.3s ease;
+            fillColor: '#89CFF0';
+            fillOpacity: 0.15;
+            color: '#1E90FF';
+            weight: 1.5;
         }
 
         .jurisdiction-style:hover {
-            fill-opacity: 0.25;
-            stroke-width: 2.5;
+            fillOpacity: 0.25;
+            weight: 2.5;
         }
 
         .police-icon {
@@ -251,7 +245,6 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* ========== POPUPS ========== */
         .compact-popup .leaflet-popup-content-wrapper {
             border-radius: 8px;
             padding: 8px;
@@ -271,7 +264,6 @@
             font-weight: 600;
         }
 
-        /* ========== LOADING OVERLAY ========== */
         .loading-overlay {
             position: absolute;
             top: 0;
@@ -306,7 +298,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ========== ZOOM CONTROL ========== */
         .leaflet-control-zoom {
             margin-bottom: 120px !important;
         }
@@ -321,29 +312,24 @@
 </head>
 <body>
     <div id="map-container">
-        <!-- Overlay de carga -->
         <div class="loading-overlay" id="loading-overlay">
             <div class="loading-spinner"></div>
             <p class="loading-text">Cargando mapa...</p>
         </div>
         
-        <!-- Marca institucional -->
         <div class="municipality-brand">
             <div class="municipality-title">Municipalidad de La Plata</div>
             <div class="municipality-divider"></div>
             <div class="municipality-subtitle">Subsecretaría de Prevención Ciudadana</div>
         </div>
         
-        <!-- Mapa -->
         <div id="map"></div>
         
-        <!-- Título -->
         <div class="title-container">
-            <h1 class="title"> DEPENDENCIAS POLICIALES</h1>
-            <p class="subtitle"> Subsecretaría de Prevención Ciudadana</p>
+            <h1 class="title">DEPENDENCIAS POLICIALES</h1>
+            <p class="subtitle">Subsecretaría de Prevención Ciudadana</p>
         </div>
         
-        <!-- Panel de control -->
         <div class="control-panel">
             <button id="locate-btn" class="control-btn">
                 <i class="fas fa-location-arrow"></i> <span class="btn-text">Mi ubicación</span>
@@ -355,28 +341,28 @@
     </div>
 
     <script>
-        // 1. Inicialización del mapa con capa base colorida
+        // Inicialización del mapa
         const map = L.map('map', {
             zoomControl: false,
             preferCanvas: true,
             tap: false
         }).setView([-34.9215, -57.9545], 14);
 
-        // Control de zoom responsivo
+        // Control de zoom
         L.control.zoom({
             position: 'bottomright',
             zoomInText: '+',
             zoomOutText: '-'
         }).addTo(map);
 
-        // 2. Capa base colorida (OpenStreetMap HOT)
+        // Capa base mejorada
         const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18,
             minZoom: 10
         }).addTo(map);
 
-        // 3. Función para crear iconos responsivos
+        // Función para crear iconos
         const createPoliceIcon = () => {
             const size = Math.min(36, Math.max(28, window.innerWidth / 15));
             return L.divIcon({
@@ -386,7 +372,7 @@
             });
         };
 
-        // 4. Comisarías de ejemplo (datos)
+        // Datos de comisarías
         const policeStations = [
             {
                 name: "Comisaría 1ra",
@@ -523,64 +509,93 @@
             `);
         });
 
-        // 5. Carga de KML con jurisdicciones
-        const kmlUrl = 'https://raw.githubusercontent.com/JAVIERGAR777/map/main/jurisdiccion.kml';
-        
-        const kmlLayer = omnivore.kml(kmlUrl, null, L.geoJson(null, {
-            style: {
-                fillColor: '#89CFF0',
-                fillOpacity: 0.15,
-                color: '#1E90FF',
-                weight: 1.5,
-                className: 'jurisdiction-style'
-            },
-            onEachFeature: function(feature, layer) {
-                layer.on({
-                    mouseover: function(e) {
-                        this.setStyle({
-                            fillOpacity: 0.25,
-                            weight: 2.5
-                        });
+        // Solución universal para cargar KML
+        function loadKML() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingText = document.querySelector('.loading-text');
+            
+            loadingText.textContent = 'Cargando jurisdicciones...';
+            
+            // Primero intentamos cargar directamente (para PC)
+            const directLoad = () => {
+                omnivore.kml('https://raw.githubusercontent.com/JAVIERGAR777/map/main/jurisdiccion.kml', null, L.geoJson(null, {
+                    style: {
+                        fillColor: '#89CFF0',
+                        fillOpacity: 0.15,
+                        color: '#1E90FF',
+                        weight: 1.5
                     },
-                    mouseout: function(e) {
-                        this.setStyle({
-                            fillOpacity: 0.15,
-                            weight: 1.5
+                    onEachFeature: function(feature, layer) {
+                        layer.on({
+                            mouseover: function(e) {
+                                this.setStyle({
+                                    fillOpacity: 0.25,
+                                    weight: 2.5
+                                });
+                            },
+                            mouseout: function(e) {
+                                this.setStyle({
+                                    fillOpacity: 0.15,
+                                    weight: 1.5
+                                });
+                            }
                         });
+                        
+                        if (feature.properties) {
+                            layer.bindPopup(`
+                                <div class="compact-popup">
+                                    <h3>${feature.properties.name || 'Jurisdicción'}</h3>
+                                    ${feature.properties.description ? `<p>${feature.properties.description}</p>` : ''}
+                                </div>
+                            `);
+                        }
                     }
-                });
-                
-                if (feature.properties) {
-                    layer.bindPopup(`
-                        <div class="compact-popup">
-                            <h3>${feature.properties.name || 'Jurisdicción'}</h3>
-                            ${feature.properties.description ? `<p>${feature.properties.description}</p>` : ''}
-                        </div>
-                    `);
-                }
-            }
-        })).addTo(map);
+                }))
+                .on('ready', function() {
+                    loadingOverlay.style.display = 'none';
+                    if (window.innerWidth < 768) {
+                        map.fitBounds(this.getBounds().pad(0.2));
+                    } else {
+                        map.fitBounds(this.getBounds().pad(0.1));
+                    }
+                })
+                .on('error', function() {
+                    // Si falla, intentamos con proxy CORS
+                    loadingText.textContent = 'Intentando con conexión segura...';
+                    proxyLoad();
+                })
+                .addTo(map);
+            };
+            
+            // Método alternativo con proxy (para móviles)
+            const proxyLoad = () => {
+                omnivore.kml('https://corsproxy.io/?https://raw.githubusercontent.com/JAVIERGAR777/map/main/jurisdiccion.kml', null, L.geoJson(null, {
+                    style: {
+                        fillColor: '#89CFF0',
+                        fillOpacity: 0.15,
+                        color: '#1E90FF',
+                        weight: 1.5
+                    }
+                }))
+                .on('ready', function() {
+                    loadingOverlay.style.display = 'none';
+                })
+                .on('error', function() {
+                    loadingOverlay.style.display = 'none';
+                    alert('No se pudo cargar las jurisdicciones. Intente más tarde.');
+                })
+                .addTo(map);
+            };
+            
+            // Iniciamos el primer intento
+            directLoad();
+        }
 
-        // 6. Ocultar overlay cuando todo cargue
-        kmlLayer.on('ready', function() {
-            document.getElementById('loading-overlay').style.display = 'none';
-            // Ajuste responsivo del zoom
-            if (window.innerWidth < 768) {
-                map.fitBounds(kmlLayer.getBounds().pad(0.2));
-            } else {
-                map.fitBounds(kmlLayer.getBounds().pad(0.1));
-            }
-        });
+        // Cargar el KML
+        loadKML();
 
-        // Manejo de errores
-        kmlLayer.on('error', function() {
-            document.getElementById('loading-overlay').style.display = 'none';
-            alert('Error al cargar jurisdicciones. Verifica la URL del KML.');
-        });
-
-        // 7. Geolocalización responsiva
+        // Geolocalización
         let userMarker = null;
-        
         document.getElementById('locate-btn').addEventListener('click', function() {
             const btn = this;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="btn-text">Buscando...</span>';
@@ -624,24 +639,38 @@
             );
         });
 
-        // 8. Toggle para capa de jurisdicciones
+        // Toggle para capa de jurisdicciones
         document.getElementById('toggle-layer').addEventListener('click', function() {
-            if (map.hasLayer(kmlLayer)) {
-                map.removeLayer(kmlLayer);
-                this.innerHTML = '<i class="fas fa-layer-group"></i> <span class="btn-text">Mostrar Jurisd.</span>';
+            const layers = map._layers;
+            let kmlLayerFound = null;
+            
+            for (const layerId in layers) {
+                if ((layers[layerId]._url && layers[layerId]._url.includes('jurisdiccion.kml')) || 
+                    (layers[layerId].options && layers[layerId].options.className === 'jurisdiction-style')) {
+                    kmlLayerFound = layers[layerId];
+                    break;
+                }
+            }
+            
+            if (kmlLayerFound) {
+                if (map.hasLayer(kmlLayerFound)) {
+                    map.removeLayer(kmlLayerFound);
+                    this.innerHTML = '<i class="fas fa-layer-group"></i> <span class="btn-text">Mostrar Jurisd.</span>';
+                } else {
+                    map.addLayer(kmlLayerFound);
+                    this.innerHTML = '<i class="fas fa-layer-group"></i> <span class="btn-text">Ocultar Jurisd.</span>';
+                }
             } else {
-                map.addLayer(kmlLayer);
-                this.innerHTML = '<i class="fas fa-layer-group"></i> <span class="btn-text">Ocultar Jurisd.</span>';
+                alert('La capa de jurisdicciones no está disponible. Recargue la página.');
             }
         });
 
-        // 9. Ajustes responsivos al cambiar tamaño
+        // Ajustes responsivos
         window.addEventListener('resize', function() {
             const controlPanel = document.querySelector('.control-panel');
             const zoomControl = document.querySelector('.leaflet-control-zoom');
             
             if (window.innerWidth >= 768) {
-                // Desktop
                 controlPanel.style.bottom = 'auto';
                 controlPanel.style.top = '100px';
                 controlPanel.style.right = '20px';
@@ -649,7 +678,6 @@
                 controlPanel.style.flexDirection = 'column';
                 zoomControl.style.marginBottom = '20px';
             } else {
-                // Móvil - Posición más alta
                 controlPanel.style.top = 'auto';
                 controlPanel.style.bottom = '80px';
                 controlPanel.style.right = '10px';
@@ -659,7 +687,6 @@
             }
         });
 
-        // Ejecutar al cargar para posición inicial
         window.dispatchEvent(new Event('resize'));
     </script>
 </body>
