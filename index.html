@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa Comisarías La Plata</title>
-    <!-- Leaflet CSS + JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Plugins -->
     <script src="https://unpkg.com/leaflet-omnivore@latest/leaflet-omnivore.min.js"></script>
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -199,15 +196,6 @@
             font-size: 0.8rem;
         }
 
-        /* Estilo para jurisdicción seleccionada */
-        .selected-jurisdiction {
-            fillColor: '#1E90FF';
-            fillOpacity: 0.35;
-            weight: 3;
-            color: '#0d47a1';
-            filter: 'drop-shadow(0 0 8px rgba(30, 144, 255, 0.7))';
-        }
-
         .police-icon {
             background: white;
             border-radius: 50%;
@@ -333,10 +321,7 @@
     </div>
 
     <script>
-        // Variables globales
         let map, kmlLayer, userMarker, selectedJurisdiction = null;
-
-        // Inicialización del mapa
         function initMap() {
             map = L.map('map', {
                 zoomControl: false,
@@ -344,44 +329,174 @@
                 tap: false
             }).setView([-34.9215, -57.9545], 14);
 
-            // Control de zoom
             L.control.zoom({
                 position: 'bottomright',
                 zoomInText: '+',
                 zoomOutText: '-'
             }).addTo(map);
 
-            // Capa base
+
             L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 maxZoom: 18,
                 minZoom: 10
             }).addTo(map);
 
-            // Cargar comisarías
+
             loadPoliceStations();
             
-            // Cargar jurisdicciones
+
             loadKML();
             
-            // Configurar eventos
             setupEvents();
         }
 
-        // Cargar comisarías
         function loadPoliceStations() {
-            const policeStations = [
-                {
-                    name: "Comisaría 1ra",
-                    position: [-34.918585577853555, -57.95042527694323],
-                    address: "Calle 5 entre 40 y 41",
-                },
-                {
-                    name: "Comisaría 2da",
-                    position: [-34.906335444866976, -57.96302273285518],
-                    address: "Calle 5 entre 40 y 41",
-                },
-                // ... (resto de las comisarías)
+        const policeStations = [
+            {
+                name: "Comisaría 1ra",
+                position: [-34.918585577853555, -57.95042527694323],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 2da",
+                position: [-34.906335444866976, -57.96302273285518],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 3ra",
+                position: [-34.95043480028593, -57.971455941531154],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 4ta",
+                position: [-34.922116443753794, -57.97307787951273],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 5ta",
+                position: [-34.94254007826038, -57.960470927890704],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 6ta",
+                position: [-34.892290626324495, -57.96617988454672],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 7ma",
+                position: [-34.98918555048898, -58.0911346403123],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 8va",
+                position: [-34.93290850584742, -57.92547964175842],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 9na",
+                position: [-34.91823232738321, -57.9405453932929],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 10ma",
+                position: [-34.87148414992572, -58.04867362302773],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 11ra",
+                position: [-34.90554773701429, -57.97872109079646],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 12da",
+                position: [-34.85063136232125, -58.085877839100746],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 13ra",
+                position: [-34.882671458877034, -58.01101743862618],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 14ta",
+                position: [-34.949959799293694, -58.05445493337742],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 15ta",
+                position: [-35.000033665167635, -58.053632998688556],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 16ta",
+                position: [-34.925204919265674, -57.903379935191865],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. Aeropuerto",
+                position: [-34.95429953516987, -57.88785577535052],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. La Unión",
+                position: [-34.92247388342466, -58.00901872691562],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Sub.Cría Arana",
+                position: [-34.996800045307836, -57.89274665667749],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Sub.Cría Gorina",
+                position: [-34.908888717287134, -58.037308266247585],
+                address: "Calle 5 entre 40 y 41",
+
+            },  
+            {
+                name: "Sub.Cría Hernandez",
+                position: [-34.903800885976636, -58.01639748634084],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. Arturo Seguí",
+                position: [-34.888701484461286, -58.12698734684885],
+                address: "Calle 5 entre 40 y 41",
+
+            },                                  
+            {
+                name: "Dto. Villa Castells",
+                position: [-34.87613699017282, -58.01804959467028],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría de la Mujer y la Família",
+                position: [-34.90369201206515, -57.95111030660037],
+                address: "Calle 5 entre 40 y 41",
+
+            }    
             ];
 
             policeStations.forEach(station => {
@@ -401,14 +516,12 @@
             });
         }
 
-        // Cargar KML con manejo de errores
         function loadKML() {
             const loadingOverlay = document.getElementById('loading-overlay');
             const loadingText = document.querySelector('.loading-text');
             
             loadingText.textContent = 'Cargando jurisdicciones...';
             
-            // Primero intentamos cargar directamente
             const kmlUrl = 'https://raw.githubusercontent.com/JAVIERGAR777/map/main/jurisdiccion.kml';
             
             kmlLayer = omnivore.kml(kmlUrl, null, L.geoJson(null, {
@@ -419,7 +532,6 @@
                     weight: 1.5
                 },
                 onEachFeature: function(feature, layer) {
-                    // Estilo base
                     layer.setStyle({
                         fillColor: '#89CFF0',
                         fillOpacity: 0.15,
@@ -427,7 +539,6 @@
                         weight: 1.5
                     });
                     
-                    // Evento mouseover
                     layer.on({
                         mouseover: function(e) {
                             if (this !== selectedJurisdiction) {
@@ -446,19 +557,6 @@
                             }
                         },
                         click: function(e) {
-                            // Resetear todas las jurisdicciones al estilo normal primero
-                            kmlLayer.eachLayer(function(layer) {
-                                if (layer !== selectedJurisdiction) {
-                                    layer.setStyle({
-                                        fillColor: '#89CFF0',
-                                        fillOpacity: 0.15,
-                                        weight: 1.5,
-                                        color: '#1E90FF'
-                                    });
-                                }
-                            });
-                            
-                            // Si ya está seleccionada, deseleccionar
                             if (selectedJurisdiction === this) {
                                 this.setStyle({
                                     fillColor: '#89CFF0',
@@ -470,7 +568,15 @@
                                 return;
                             }
                             
-                            // Aplicar estilo de selección
+                            if (selectedJurisdiction) {
+                                selectedJurisdiction.setStyle({
+                                    fillColor: '#89CFF0',
+                                    fillOpacity: 0.15,
+                                    weight: 1.5,
+                                    color: '#1E90FF'
+                                });
+                            }
+                            
                             this.setStyle({
                                 fillColor: '#1E90FF',
                                 fillOpacity: 0.35,
@@ -478,18 +584,9 @@
                                 color: '#0d47a1'
                             });
                             
-                            // Añadir efecto de luz con SVG filter
-                            this.setStyle({
-                                fillColor: '#1E90FF',
-                                fillOpacity: 0.35,
-                                weight: 3,
-                                color: '#0d47a1'
-                            });
-                            
-                            // Guardar referencia a la jurisdicción seleccionada
                             selectedJurisdiction = this;
                             
-                            // Opcional: Centrar el mapa en la jurisdicción seleccionada
+
                             map.fitBounds(this.getBounds().pad(0.1));
                         }
                     });
@@ -513,7 +610,6 @@
                 }
             })
             .on('error', function() {
-                // Segundo intento con proxy
                 loadingText.textContent = 'Cargando desde servidor seguro...';
                 
                 const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(kmlUrl);
@@ -539,9 +635,7 @@
             .addTo(map);
         }
 
-        // Configurar eventos
         function setupEvents() {
-            // Geolocalización
             document.getElementById('locate-btn').addEventListener('click', function() {
                 const btn = this;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="btn-text">Buscando...</span>';
@@ -584,7 +678,6 @@
                 );
             });
 
-            // Toggle capa de jurisdicciones
             document.getElementById('toggle-layer').addEventListener('click', function() {
                 if (!kmlLayer) {
                     alert('La capa de jurisdicciones no está disponible. Intente recargar la página.');
@@ -600,7 +693,6 @@
                 }
             });
 
-            // Ajustes responsivos
             window.addEventListener('resize', function() {
                 const controlPanel = document.querySelector('.control-panel');
                 const zoomControl = document.querySelector('.leaflet-control-zoom');
@@ -623,7 +715,6 @@
             });
         }
 
-        // Iniciar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
             initMap();
             window.dispatchEvent(new Event('resize'));
