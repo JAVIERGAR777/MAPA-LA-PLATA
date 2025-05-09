@@ -313,25 +313,148 @@
         const policeStations = [
             {
                 name: "Comisaría 1ra",
-                position: [-34.915, -57.950],
+                position: [-34.918585577853555, -57.95042527694323],
                 address: "Calle 5 entre 40 y 41",
-                phone: "221 123-4567",
-                schedule: "24 horas"
+
             },
             {
-                name: "Comisaría Central",
-                position: [-34.908, -57.940],
-                address: "Plaza San Martín",
-                phone: "221 987-6543",
-                schedule: "24 horas"
+                name: "Comisaría 2da",
+                position: [-34.906335444866976, -57.96302273285518],
+                address: "Calle 5 entre 40 y 41",
+
             },
             {
                 name: "Comisaría 3ra",
-                position: [-34.925, -57.960],
-                address: "Av. 13 y 32",
-                phone: "221 555-6789",
-                schedule: "24 horas"
-            }
+                position: [-34.95043480028593, -57.971455941531154],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 4ta",
+                position: [-34.922116443753794, -57.97307787951273],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 5ta",
+                position: [-34.94254007826038, -57.960470927890704],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 6ta",
+                position: [-34.918585577853555, -57.95042527694323],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 7ma",
+                position: [-34.98918555048898, -58.0911346403123],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 8va",
+                position: [-34.93290850584742, -57.92547964175842],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 9na",
+                position: [-34.91823232738321, -57.9405453932929],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 10ma",
+                position: [-34.87148414992572, -58.04867362302773],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 11ra",
+                position: [-34.90554773701429, -57.97872109079646],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 12da",
+                position: [-34.85063136232125, -58.085877839100746],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 13ra",
+                position: [-34.882671458877034, -58.01101743862618],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 14ta",
+                position: [-34.949959799293694, -58.05445493337742],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 15ta",
+                position: [-35.000033665167635, -58.053632998688556],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría 16ta",
+                position: [-34.925204919265674, -57.903379935191865],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. Aeropuerto",
+                position: [-34.95429953516987, -57.88785577535052],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. La Unión",
+                position: [-34.92247388342466, -58.00901872691562],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Sub.Cría Arana",
+                position: [-34.996800045307836, -57.89274665667749],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Sub.Cría Gorina",
+                position: [-34.908888717287134, -58.037308266247585],
+                address: "Calle 5 entre 40 y 41",
+
+            },  
+            {
+                name: "Sub.Cría Hernandez",
+                position: [-34.922116443753794, -57.97307787951273],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Dto. Arturo Seguí",
+                position: [-34.888701484461286, -58.12698734684885],
+                address: "Calle 5 entre 40 y 41",
+
+            },                                  
+            {
+                name: "Dto. Villa Castells",
+                position: [-34.87613699017282, -58.01804959467028],
+                address: "Calle 5 entre 40 y 41",
+
+            },
+            {
+                name: "Comisaría de la Mujer y la Família",
+                position: [-34.90369201206515, -57.95111030660037],
+                address: "Calle 5 entre 40 y 41",
+
+            }                        
         ];
 
         // Añadir comisarías al mapa
@@ -343,8 +466,6 @@
                 <div class="compact-popup">
                     <h3>${station.name}</h3>
                     <p><i class="fas fa-map-marker-alt"></i> ${station.address}</p>
-                    <p><i class="fas fa-phone"></i> ${station.phone}</p>
-                    <p><i class="fas fa-clock"></i> ${station.schedule}</p>
                 </div>
             `);
         });
