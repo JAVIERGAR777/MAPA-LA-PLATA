@@ -48,7 +48,7 @@
             background: rgba(255, 255, 255, 0.7);
         }
 
-        /* ========== ELEMENTOS RESPONSIVOS ========== */
+        /* ========== TÍTULO ========== */
         .title-container {
             position: absolute;
             top: 20px;
@@ -79,10 +79,10 @@
             opacity: 0.8;
         }
 
+        /* ========== PANEL DE CONTROL ========== */
         .control-panel {
             position: absolute;
-            top: auto;
-            bottom: 20px;
+            bottom: 80px; /* Posición ajustada para móviles */
             right: 10px;
             left: 10px;
             display: flex;
@@ -181,7 +181,7 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* ========== POPUPS RESPONSIVOS ========== */
+        /* ========== POPUPS ========== */
         .compact-popup .leaflet-popup-content-wrapper {
             border-radius: 8px;
             padding: 8px;
@@ -236,9 +236,9 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ========== ZOOM CONTROL RESPONSIVO ========== */
+        /* ========== ZOOM CONTROL ========== */
         .leaflet-control-zoom {
-            margin-bottom: 80px !important;
+            margin-bottom: 120px !important;
         }
 
         @media (min-width: 768px) {
@@ -463,21 +463,30 @@
 
         // 9. Ajustes responsivos al cambiar tamaño
         window.addEventListener('resize', function() {
-            // Reajustar posición del panel en móviles
+            const controlPanel = document.querySelector('.control-panel');
+            const zoomControl = document.querySelector('.leaflet-control-zoom');
+            
             if (window.innerWidth >= 768) {
-                document.querySelector('.control-panel').style.bottom = 'auto';
-                document.querySelector('.control-panel').style.top = '100px';
-                document.querySelector('.control-panel').style.right = '20px';
-                document.querySelector('.control-panel').style.left = 'auto';
-                document.querySelector('.control-panel').style.flexDirection = 'column';
+                // Desktop
+                controlPanel.style.bottom = 'auto';
+                controlPanel.style.top = '100px';
+                controlPanel.style.right = '20px';
+                controlPanel.style.left = 'auto';
+                controlPanel.style.flexDirection = 'column';
+                zoomControl.style.marginBottom = '20px';
             } else {
-                document.querySelector('.control-panel').style.top = 'auto';
-                document.querySelector('.control-panel').style.bottom = '20px';
-                document.querySelector('.control-panel').style.right = '10px';
-                document.querySelector('.control-panel').style.left = '10px';
-                document.querySelector('.control-panel').style.flexDirection = 'row';
+                // Móvil - Posición más alta
+                controlPanel.style.top = 'auto';
+                controlPanel.style.bottom = '80px'; // Posición optimizada
+                controlPanel.style.right = '10px';
+                controlPanel.style.left = '10px';
+                controlPanel.style.flexDirection = 'row';
+                zoomControl.style.marginBottom = '120px';
             }
         });
+
+        // Ejecutar al cargar para posición inicial
+        window.dispatchEvent(new Event('resize'));
     </script>
 </body>
 </html>
